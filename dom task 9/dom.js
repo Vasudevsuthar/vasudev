@@ -1,0 +1,105 @@
+var edit = document.querySelectorAll('.list-group-item');
+edit.forEach( function (node)
+{
+    var editbtn = document.createElement('button')
+    editbtn.className='btn btn-Warning btn-sm float-right edit';
+    editbtn.textContent='Edit'
+    node.appendChild(editbtn)
+});
+
+
+
+
+
+
+
+
+
+
+
+var form = document.getElementById('addForm');
+var itemList = document.getElementById('items');
+var filter = document.getElementById('filter');
+// console.log(form);
+// console.log(itemList);
+
+
+
+form.addEventListener('submit',addItem);
+//remove an element once u click the X
+itemList.addEventListener('click',removeItem);
+// Filter event
+filter.addEventListener('keyup', filterItems);
+
+function addItem(e){
+    e.preventDefault();
+    var newItem=document.getElementById('item').value
+
+   
+var li=document.createElement('li');
+li.className='list-group-item';
+// console.log(li);
+li.appendChild(document.createTextNode(newItem));
+
+
+
+//create delete button
+
+
+   var Delete=document.createElement('button') ;
+   Delete.className='btn btn-danger btn-sm float-right delete';
+   Delete.appendChild(document.createTextNode('X'));
+   /////Add a edit button 
+   var editbtn = document.createElement('button')
+   editbtn.className='btn btn-Warning btn-sm float-right edit';
+   editbtn.textContent='Edit'
+   
+
+
+    li.appendChild(Delete);
+    li.appendChild(editbtn);
+    itemList.appendChild(li);
+
+
+}
+
+
+//removes
+
+function removeItem(e)
+{
+    if(e.target.classList.contains('btn-danger'))// class list contain letter for eg 'danger'
+    {
+        if(confirm('Are You Sure?'))
+        {
+          
+            itemList.removeChild(e.target.parentElement);
+        }
+    }
+} 
+
+
+
+
+// filter Items
+function filterItems(e){
+    // convert text to lowercase
+    var text = e.target.value.toLowerCase();
+    // console.log(text);
+
+    var items = itemList.getElementsByTagName('li');
+    // console.log(items);
+
+    // Convert to an array //
+    Array.from(items).forEach(function(item){
+        var itemfirstchild=item.firstChild.textContent;
+        var second_child=item.childNodes[1].textContent;
+    if(itemfirstchild.toLocaleLowerCase().indexOf(text)!=-1||second_child.toLocaleLowerCase().indexOf(text)!=-1){
+        item.style.dispaly= 'block';
+    
+    }
+    else{
+        item.style.display='none';
+    }
+    });
+}
